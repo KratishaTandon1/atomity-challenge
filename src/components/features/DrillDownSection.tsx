@@ -88,7 +88,7 @@ export function DrillDownDashboard() {
         </div>
         
         {/* --- Bar Chart Section --- */}
-        <div className="relative h-64 border-b border-dashed border-border-subtle mb-12 pb-4 flex justify-center items-end gap-12 sm:gap-24">
+        <div className="relative h-[18rem] sm:h-64 border-b border-dashed border-border-subtle mb-12 pb-4 overflow-x-auto overflow-y-hidden custom-scrollbar">
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center">
                <motion.div
@@ -98,29 +98,31 @@ export function DrillDownDashboard() {
                />
             </div>
           ) : (
-            <AnimatePresence mode="wait">
-              {entities?.map((entity) => (
-                <motion.div 
-                  key={`bar-container-${currentView.level}-${entity.id}`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
-                  className="flex flex-col items-center justify-end w-16 sm:w-20 h-full relative z-10 group"
-                >
-                  <div className="flex-1 w-full flex items-end justify-center">
-                    <ChartBar 
-                      heightPercentage={entity.heightPercent}
-                      layoutId={`bar-${currentView.level}-${entity.id}`}
-                      onClick={() => handleDrillDown(entity)}
-                      isActive={currentView.level !== 'pod' && history.some(h => h.parentId === entity.id)}
-                    />
-                  </div>
-                  <span className="mt-4 text-sm font-semibold text-foreground tracking-tight whitespace-nowrap">
-                    {entity.name}
-                  </span>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+            <div className="min-w-max h-full flex justify-start sm:justify-center items-end gap-6 sm:gap-12 md:gap-24 px-4 sm:px-8 mx-auto w-fit pt-8">
+              <AnimatePresence mode="wait">
+                {entities?.map((entity) => (
+                  <motion.div 
+                    key={`bar-container-${currentView.level}-${entity.id}`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
+                    className="flex flex-col items-center justify-end w-16 sm:w-20 h-full relative z-10 group"
+                  >
+                    <div className="flex-1 w-full flex items-end justify-center">
+                      <ChartBar 
+                        heightPercentage={entity.heightPercent}
+                        layoutId={`bar-${currentView.level}-${entity.id}`}
+                        onClick={() => handleDrillDown(entity)}
+                        isActive={currentView.level !== 'pod' && history.some(h => h.parentId === entity.id)}
+                      />
+                    </div>
+                    <span className="mt-4 text-xs sm:text-sm font-semibold text-foreground tracking-tight whitespace-nowrap">
+                      {entity.name}
+                    </span>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           )}
         </div>
         
