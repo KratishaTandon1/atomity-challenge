@@ -173,7 +173,6 @@ export function DrillDownDashboard() {
                     <DataRow item={{
                       id: entity.id.toString(),
                       name: entity.name,
-                      type: currentView.level,
                       cpu: entity.metrics.cpu,
                       ram: entity.metrics.ram,
                       storage: entity.metrics.storage,
